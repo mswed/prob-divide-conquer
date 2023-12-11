@@ -1,10 +1,17 @@
 function sortedFrequency(arr, target) {
-    findSIndex(arr,target, 0)
+    const frequencyStart = findStartIndex(arr,target, 0)
+    const frequencyEnd = findEndIndex(arr,target, 0)
+    if (frequencyStart === -1 && frequencyEnd === -1) {
+        console.log(-1)
+        return -1
+    }
+    console.log(frequencyEnd - frequencyStart + 1)
+    return frequencyEnd - frequencyStart + 1
+
 
 }
 
 function findStartIndex(arr, target, finalIndex) {
-    debugger;
     console.log('Array is', arr)
 
     // find midpoint
@@ -24,10 +31,10 @@ function findStartIndex(arr, target, finalIndex) {
             // Found start index
             console.log('Start index is', midPoint)
             console.log('Found start at', finalIndex)
-            return midPoint + finalIndex
+            return finalIndex
         } else {
             const newArr = arr.slice(0, midPoint)
-            findStartIndex(newArr, target, finalIndex - midPoint)
+            return findStartIndex(newArr, target, finalIndex - midPoint)
         }
 
     }
@@ -35,11 +42,12 @@ function findStartIndex(arr, target, finalIndex) {
     if (midValue < target) {
         if (arr.length === 1) {
             console.log('START NOT FOUND')
+            return -1
         } else {
             console.log('Going right')
             console.log(midPoint, arr.length)
             const newArr = arr.slice(midPoint, arr.length)
-            findStartIndex(newArr, target, finalIndex)
+            return findStartIndex(newArr, target, finalIndex)
         }
 
     }
@@ -47,7 +55,7 @@ function findStartIndex(arr, target, finalIndex) {
     if (midValue > target) {
         console.log('Going left')
         const newArr = arr.slice(0, midPoint)
-        findStartIndex(newArr, target, finalIndex - midPoint)
+        return findStartIndex(newArr, target, finalIndex - midPoint)
     }
 
     if (!arr.length || arr.length === 1) {
@@ -66,7 +74,6 @@ function findEndIndex(arr, target, finalIndex) {
     const midValue = arr[midPoint]
     console.log('Received index is', finalIndex)
     finalIndex = finalIndex + midPoint
-
     console.log('Midpoint is', midPoint)
     console.log('Final index is', finalIndex)
     console.log(midValue, '===', target)
@@ -80,7 +87,7 @@ function findEndIndex(arr, target, finalIndex) {
             return finalIndex
         } else {
             const newArr = arr.slice(midPoint, arr.length)
-            findEndIndex(newArr, target, finalIndex)
+            return findEndIndex(newArr, target, finalIndex)
         }
 
     }
@@ -88,11 +95,12 @@ function findEndIndex(arr, target, finalIndex) {
     if (midValue < target) {
         if (arr.length === 1) {
             console.log('END NOT FOUND')
+            return -1
         } else {
             console.log('Going right')
             console.log(midPoint, arr.length)
             const newArr = arr.slice(midPoint, arr.length)
-            findEndIndex(newArr, target, finalIndex)
+            return findEndIndex(newArr, target, finalIndex)
         }
 
     }
@@ -100,7 +108,7 @@ function findEndIndex(arr, target, finalIndex) {
     if (midValue > target) {
         console.log('Going left')
         const newArr = arr.slice(0, midPoint)
-        findEndIndex(newArr, target, finalIndex - midPoint)
+        return findEndIndex(newArr, target, finalIndex - midPoint)
     }
 
     if (!arr.length || arr.length === 1) {
@@ -110,14 +118,8 @@ function findEndIndex(arr, target, finalIndex) {
 
 
 }
-//                S     M     E
-//                      S   M E
 
-// sortedFrequency([1,1,1,1,1,1,1],2) // 4
-// findEndIndex([1,1,1,1,1,1,1],2, 0) // 4
-// findStartIndex([1,1,2,2,2,2,3],3) // 1
-const why = findStartIndex([1,1,2,2,2,2,3],1, 0) // 2
-// findStartIndex([1,1,2,2,2,2,3],4) // -1
-
-//
-// // module.exports = sortedFrequency
+sortedFrequency([1,1,2,2,2,2,3],2) // 4
+sortedFrequency([1,1,2,2,2,2,3],3) // 1
+sortedFrequency([1,1,2,2,2,2,3],1) // 2
+sortedFrequency([1,1,2,2,2,2,3],4) // -1
